@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.0",
+  "task": {
+    "name": "dfl/day4-frontsec-scan",
+    "version": "1",
+    "description": "Segurança frontend: varrer o build publicado (dist/) e os headers de uma SPA com um catálogo fechado de 11 regras (chaves vazadas, JWT de servidor, XSS, eval, CSP, HSTS, source map) e dar pontos e nota.",
+    "authors": [
+      {
+        "name": "DFL"
+      }
+    ],
+    "keywords": [
+      "hackathon",
+      "seguranca",
+      "frontend",
+      "regras"
+    ]
+  },
+  "metadata": {
+    "title": "Segurança frontend: varredura do build",
+    "tags": {
+      "tools": [],
+      "concepts": [
+        "security",
+        "static-analysis",
+        "business-rules"
+      ]
+    }
+  },
+  "instruction": "instruction.md",
+  "environment": {
+    "dir": "environment",
+    "install": [
+      "npm",
+      "ci",
+      "--include=dev",
+      "--no-audit",
+      "--no-fund",
+      "--ignore-scripts"
+    ],
+    "allow_internet": false,
+    "cpus": 2,
+    "memory_mb": 2048,
+    "tools": {
+      "builtin": [
+        "read",
+        "write",
+        "edit",
+        "bash",
+        "search",
+        "list",
+        "todo"
+      ],
+      "mcp": []
+    },
+    "run_egress": [
+      "model-gateway"
+    ],
+    "secrets": [],
+    "resources": {
+      "cpus": 2,
+      "memory_mb": 2048,
+      "pids": 512
+    }
+  },
+  "tests": {
+    "public": "tests/public",
+    "hidden": "tests/hidden"
+  },
+  "solution": {
+    "patch": "solution/solution.patch"
+  },
+  "editable_paths": [
+    "out/**"
+  ],
+  "protected_paths": [
+    "tests/**",
+    "casos/**",
+    "README.md",
+    "package.json",
+    "package-lock.json",
+    "vitest.config.*"
+  ],
+  "verifier": {
+    "cmd": [
+      "npx",
+      "vitest",
+      "run",
+      "{tests}",
+      "--reporter=json",
+      "--outputFile={report}"
+    ],
+    "report": "vitest-json",
+    "timeout_sec": 120
+  },
+  "agent": {
+    "timeout_sec": 420
+  },
+  "est_minutes": 10
+}

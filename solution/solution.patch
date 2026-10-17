@@ -1,0 +1,250 @@
+diff --git a/out/exemplo-1.json b/out/exemplo-1.json
+new file mode 100644
+index 0000000..43ffba6
+--- /dev/null
++++ b/out/exemplo-1.json
+@@ -0,0 +1,21 @@
++{
++  "achados": [
++    {
++      "regra": "FS02",
++      "arquivo": "assets/app.js",
++      "linha": 3
++    },
++    {
++      "regra": "FS07",
++      "arquivo": "assets/app.js",
++      "linha": 12
++    },
++    {
++      "regra": "FS08",
++      "arquivo": "index.html",
++      "linha": 12
++    }
++  ],
++  "pontos": 16,
++  "nota": "C"
++}
+diff --git a/out/exemplo-2.json b/out/exemplo-2.json
+new file mode 100644
+index 0000000..2d590c5
+--- /dev/null
++++ b/out/exemplo-2.json
+@@ -0,0 +1,51 @@
++{
++  "achados": [
++    {
++      "regra": "FS01",
++      "arquivo": "assets/config.js",
++      "linha": 2
++    },
++    {
++      "regra": "FS03",
++      "arquivo": "assets/config.js",
++      "linha": 5
++    },
++    {
++      "regra": "FS05",
++      "arquivo": "assets/config.js",
++      "linha": 9
++    },
++    {
++      "regra": "FS01",
++      "arquivo": "assets/index-4f2a9c.js",
++      "linha": 1
++    },
++    {
++      "regra": "FS04",
++      "arquivo": "assets/index-4f2a9c.js",
++      "linha": 1
++    },
++    {
++      "regra": "FS11",
++      "arquivo": "assets/index-4f2a9c.js",
++      "linha": 2
++    },
++    {
++      "regra": "FS09",
++      "arquivo": "headers.json",
++      "linha": 0
++    },
++    {
++      "regra": "FS06",
++      "arquivo": "index.html",
++      "linha": 6
++    },
++    {
++      "regra": "FS08",
++      "arquivo": "index.html",
++      "linha": 12
++    }
++  ],
++  "pontos": 201,
++  "nota": "F"
++}
+diff --git a/out/exemplo-3.json b/out/exemplo-3.json
+new file mode 100644
+index 0000000..09856e1
+--- /dev/null
++++ b/out/exemplo-3.json
+@@ -0,0 +1,21 @@
++{
++  "achados": [
++    {
++      "regra": "FS05",
++      "arquivo": "assets/main-7c1e.js",
++      "linha": 1
++    },
++    {
++      "regra": "FS07",
++      "arquivo": "assets/main-7c1e.js",
++      "linha": 1
++    },
++    {
++      "regra": "FS10",
++      "arquivo": "headers.json",
++      "linha": 0
++    }
++  ],
++  "pontos": 35,
++  "nota": "C"
++}
+diff --git a/out/exemplo-4.json b/out/exemplo-4.json
+new file mode 100644
+index 0000000..1a58e5d
+--- /dev/null
++++ b/out/exemplo-4.json
+@@ -0,0 +1,31 @@
++{
++  "achados": [
++    {
++      "regra": "FS03",
++      "arquivo": "assets/app-2b9d.js",
++      "linha": 2
++    },
++    {
++      "regra": "FS09",
++      "arquivo": "headers.json",
++      "linha": 0
++    },
++    {
++      "regra": "FS10",
++      "arquivo": "headers.json",
++      "linha": 0
++    },
++    {
++      "regra": "FS04",
++      "arquivo": "index.html",
++      "linha": 7
++    },
++    {
++      "regra": "FS07",
++      "arquivo": "index.html",
++      "linha": 8
++    }
++  ],
++  "pontos": 90,
++  "nota": "F"
++}
+diff --git a/out/exemplo-5.json b/out/exemplo-5.json
+new file mode 100644
+index 0000000..a6a97cd
+--- /dev/null
++++ b/out/exemplo-5.json
+@@ -0,0 +1,96 @@
++{
++  "achados": [
++    {
++      "regra": "FS03",
++      "arquivo": "assets/admin.js",
++      "linha": 3
++    },
++    {
++      "regra": "FS03",
++      "arquivo": "assets/admin.js",
++      "linha": 4
++    },
++    {
++      "regra": "FS01",
++      "arquivo": "assets/admin.js",
++      "linha": 6
++    },
++    {
++      "regra": "FS04",
++      "arquivo": "assets/admin.js",
++      "linha": 13
++    },
++    {
++      "regra": "FS01",
++      "arquivo": "assets/index-e81f.js",
++      "linha": 1
++    },
++    {
++      "regra": "FS02",
++      "arquivo": "assets/index-e81f.js",
++      "linha": 1
++    },
++    {
++      "regra": "FS04",
++      "arquivo": "assets/index-e81f.js",
++      "linha": 1
++    },
++    {
++      "regra": "FS05",
++      "arquivo": "assets/index-e81f.js",
++      "linha": 1
++    },
++    {
++      "regra": "FS07",
++      "arquivo": "assets/index-e81f.js",
++      "linha": 1
++    },
++    {
++      "regra": "FS11",
++      "arquivo": "assets/index-e81f.js",
++      "linha": 2
++    },
++    {
++      "regra": "FS05",
++      "arquivo": "assets/legado.js",
++      "linha": 3
++    },
++    {
++      "regra": "FS07",
++      "arquivo": "assets/legado.js",
++      "linha": 7
++    },
++    {
++      "regra": "FS04",
++      "arquivo": "assets/vendor/editor-55aa.js",
++      "linha": 1
++    },
++    {
++      "regra": "FS11",
++      "arquivo": "assets/vendor/editor-55aa.js",
++      "linha": 2
++    },
++    {
++      "regra": "FS10",
++      "arquivo": "headers.json",
++      "linha": 0
++    },
++    {
++      "regra": "FS06",
++      "arquivo": "index.html",
++      "linha": 7
++    },
++    {
++      "regra": "FS04",
++      "arquivo": "index.html",
++      "linha": 13
++    },
++    {
++      "regra": "FS08",
++      "arquivo": "index.html",
++      "linha": 15
++    }
++  ],
++  "pontos": 362,
++  "nota": "F"
++}

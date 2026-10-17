@@ -1,0 +1,97 @@
+{
+  "resumo": [
+    "O agente recebe o build publicado de uma SPA (dist/ com index.html e .js, alguns minificados numa linha) e os headers HTTP de produção.",
+    "Ele precisa listar os achados de um catálogo fechado de 11 regras (FS01–FS11) com arquivo e linha, somar os pontos e dar uma nota de A a F.",
+    "O difícil é não confundir parecido com perigoso: JWT público x de servidor, chave de teste x secreta, sink com texto fixo x com dado da URL, CSP que só parece segura."
+  ],
+  "exemplo-1": {
+    "titulo": "Pipoca Delivery: o build pequeno",
+    "historia": "Uma lanchonete publicou seu cardápio online feito em Vite. O build tem um HTML e um único arquivo JS legível. Os headers de segurança estão bem configurados.",
+    "armadilhas": [
+      "FS03: o JWT do arquivo tem role \"anon\", que é papel público, então não é achado.",
+      "FS04: innerHTML recebe um texto fixo, sem fonte da URL, então não é achado.",
+      "FS02: a chave pf_test_ é de teste e vale só 3 pontos."
+    ],
+    "resposta_explicada": [
+      "FS02 em assets/app.js linha 3: chave de teste da PagaFácil com 24 caracteres.",
+      "FS07 em assets/app.js linha 12: a chave \"auth_token\" contém \"token\".",
+      "FS08 em index.html linha 12: link do WhatsApp com target=\"_blank\" sem rel.",
+      "Pontos 3 + 10 + 3 = 16, que cai na faixa 16–35: nota C."
+    ]
+  },
+  "exemplo-2": {
+    "titulo": "Ateliê Boa Vista: segredo no comentário",
+    "historia": "Uma loja de artesanato tem checkout próprio. Alguém comentou a chave antiga da nuvem achando que assim ela sumia, e o JWT de servidor foi parar no painel. O bundle principal está minificado numa linha.",
+    "armadilhas": [
+      "Regra 4: a chave nvm_sec_ comentada continua no arquivo público, então conta como FS01.",
+      "FS03: na linha minificada há um JWT anon (não conta); em config.js há um JWT servidor (conta).",
+      "Regra 17: a linha minificada tem FS01 e FS04 juntos, que são dois achados na mesma linha.",
+      "FS08: dois links ruins na mesma linha do HTML viram um achado só.",
+      "FS05: eval(\"1 + 1\") começa com aspas, é literal e não conta.",
+      "FS09: script-src tem 'unsafe-inline'.",
+      "FS10: max-age=31536000 é exatamente 1 ano, então está OK."
+    ],
+    "resposta_explicada": [
+      "FS01 aparece duas vezes, em config.js linha 2 (comentário) e no minificado linha 1.",
+      "FS11 no minificado linha 2: o .map referenciado existe em dist/.",
+      "headers.json fica entre assets/... e index.html na ordenação por texto.",
+      "Há achado crítico (FS01/FS03), então a nota é F, independente dos 201 pontos."
+    ]
+  },
+  "exemplo-3": {
+    "titulo": "Clínica Sorriso: no limite da nota C",
+    "historia": "Uma clínica odontológica tem agenda online. Não há segredo vazado, mas o código monta funções a partir de texto e guarda o JWT no navegador. O HSTS foi configurado só para 6 meses.",
+    "armadilhas": [
+      "FS03: o JWT tem role \"usuario\", que é papel público.",
+      "FS04: textContent não é sink e document.title não é sink.",
+      "FS05: new Function com crase (template) não é literal; retrieval( não é eval(; new Function(\"return 42\") é literal.",
+      "FS07: \"JWT_cache\" conta (sem diferenciar maiúsculas) e aparece duas vezes na mesma linha, mas é um achado; sessionStorage não conta; \"tema\" não contém palavra-chave.",
+      "FS09: 'unsafe-inline' só em style-src não importa; sem script-src vale default-src 'self'.",
+      "FS11: o .map referenciado não existe, então não conta.",
+      "FS06: src começando com // não é http://."
+    ],
+    "resposta_explicada": [
+      "FS05 e FS07 na linha 1 do minificado, ordenados por regra.",
+      "FS10: max-age=15552000 é menor que 31536000.",
+      "Pontos 20 + 10 + 5 = 35, o limite de cima da faixa C (36 já seria D)."
+    ]
+  },
+  "exemplo-4": {
+    "titulo": "Rede Mercadinho: o HTML também é código",
+    "historia": "Um mercado de bairro tem um site de ofertas com scripts colados direto no index.html. A CSP foi ligada só em modo de relatório e o HSTS ficou de fora.",
+    "armadilhas": [
+      "FS03: o JWT não tem campo role, e payload sem role é tratado como servidor.",
+      "FS01: \"pf_live_SUA_CHAVE_AQUI\" é placeholder e não casa com o formato.",
+      "FS04: insertAdjacentHTML com event.data num script inline do HTML conta.",
+      "FS04: innerHTML += com texto e item.nome, sem fonte da lista, não conta.",
+      "FS09: Content-Security-Policy-Report-Only não protege, então a CSP está ausente.",
+      "FS11: um .map que existe mas ninguém referencia não conta."
+    ],
+    "resposta_explicada": [
+      "FS04 em index.html linha 7 e FS07 (\"refresh_token\") em index.html linha 8: o HTML inline é lido.",
+      "FS09 e FS10 em headers.json linha 0.",
+      "Achado crítico FS03 leva à nota F (90 pontos)."
+    ]
+  },
+  "exemplo-5": {
+    "titulo": "Cursos Ipê: o build que tem de tudo",
+    "historia": "Uma plataforma de cursos cresceu rápido: tem bundle minificado, painel admin, editor de terceiros numa subpasta e código legado. Cada pedaço vaza de um jeito diferente.",
+    "armadilhas": [
+      "FS01: pf_live_ com 23 caracteres não conta; com 28 conta.",
+      "FS03: na mesma linha há um JWT admin e um usuario, o que dá um achado; anon nunca conta.",
+      "FS04: o trecho do sink acaba no ';', então innerHTML literal seguido de textContent=location.href não conta; variável intermediária não conta; === não é sink.",
+      "FS04: dois innerHTML com location.hash na mesma linha viram um achado só.",
+      "FS05: window.eval( conta (ponto antes vale); eval( expr ) com espaço conta; new Function('return 1') é literal.",
+      "FS07: chave com aspas simples 'Token-Legado' conta; chave em variável não conta; sessionStorage não conta.",
+      "FS11: mapa data: embutido conta; mapa em subpasta resolvido pela pasta do .js conta; ../maps inexistente não conta.",
+      "FS09: script-src existe, então default-src * é ignorado; https://*.cdn... não é *.",
+      "FS10: max-age=31535999 é um a menos que 1 ano."
+    ],
+    "resposta_explicada": [
+      "Cinco regras diferentes na linha 1 do minificado: FS01, FS02, FS04, FS05, FS07.",
+      "assets/vendor/editor-55aa.js tem FS04 (document.URL) e FS11 (map ao lado).",
+      "index.html: FS06 (http://), FS04 (document.write com location.search) e FS08 uma vez só na linha com dois links nofollow.",
+      "362 pontos e achado crítico: nota F."
+    ]
+  }
+}
