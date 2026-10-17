@@ -1,0 +1,49 @@
+{
+  "resumo": [
+    "Uma agência pequena precisa entregar a auditoria de segurança frontend do site de um cliente antes de ele ir ao ar.",
+    "O agente faz 4 etapas encadeadas: varre o build e os headers (11 regras), cruza os pacotes instalados com uma base de avisos de vulnerabilidade, confere cada cookie do login ao logout e monta o plano de correção priorizado com a nota final.",
+    "O difícil é não confundir parecido com perigoso, seguir a árvore de pacotes como o Node segue, ler os atributos do cookie como o navegador lê, e juntar o que tem a mesma causa antes de priorizar."
+  ],
+  "etapas": [
+    {
+      "nome": "1. varredura",
+      "entrada": "o site publicado (dist/) e os headers HTTP de produção",
+      "saida": "lista de achados com arquivo e linha (chave vazada, JWT de servidor, XSS, eval, CSP, HSTS, source map...), pontos e nota de A a F"
+    },
+    {
+      "nome": "2. dependencias",
+      "entrada": "a árvore de pacotes instalados (lock.json), a base de avisos (avisos.json) e os banners de biblioteca dentro do build",
+      "saida": "cada pacote vulnerável com seus avisos, a severidade, por qual dependência ele entrou, a menor versão que corrige tudo e se ele chega ao navegador"
+    },
+    {
+      "nome": "3. sessao",
+      "entrada": "os cookies que o site grava em cada passo do login, da renovação e do logout",
+      "saida": "cada cookie com os problemas de uma lista fechada: sem Secure, sem HttpOnly, SameSite fraco, domínio amplo, prefixo inválido, validade longa, não apagado no logout"
+    },
+    {
+      "nome": "4. plano",
+      "entrada": "os resultados das etapas 1 a 3 e a lista de riscos que o cliente pediu para aceitar (com data de validade)",
+      "saida": "lista de correções sem repetição (mesma causa = uma correção), ordenada por uma fórmula de prioridade com pontos de esforço, quais exceções valeram e a nota final recalculada"
+    }
+  ],
+  "exemplo-1": {
+    "titulo": "Pipoca Delivery: o build pequeno",
+    "historia": "Uma lanchonete vai publicar o cardápio online. O build tem um HTML, um JS legível e um arquivo de bibliotecas. O login grava dois cookies e o cliente aceitou manter um link antigo até dezembro."
+  },
+  "exemplo-2": {
+    "titulo": "Ateliê Boa Vista: segredo no comentário e cookie que não sai",
+    "historia": "Uma loja de artesanato tem checkout próprio. Há uma chave comentada no código, um JWT de servidor no painel, duas versões da mesma biblioteca instaladas e um logout que apaga o cookie errado."
+  },
+  "exemplo-3": {
+    "titulo": "Clínica Sorriso: sem crítico, mas não passa",
+    "historia": "Uma clínica tem agenda online. Não há segredo vazado, mas a agenda usa bibliotecas desatualizadas, o cookie de lembrar usuário aceita qualquer site e um pacote crítico só roda na máquina do desenvolvedor."
+  },
+  "exemplo-4": {
+    "titulo": "Rede Mercadinho: o QR que executa script",
+    "historia": "Um mercado de bairro tem scripts colados no HTML, uma biblioteca de QR crítica no navegador e cookies com validade por data."
+  },
+  "exemplo-5": {
+    "titulo": "Cursos Ipê: a auditoria que tem de tudo",
+    "historia": "Uma plataforma de cursos cresceu rápido: bundle minificado, painel admin, editor de terceiros vulnerável, um player abandonado, cópia de segurança da chave no código legado e um logout que esquece cookies."
+  }
+}
